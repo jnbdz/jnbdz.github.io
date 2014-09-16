@@ -1,0 +1,111 @@
+<!DOCTYPE HtMl>
+<html lang="en">
+<head>
+        <meta charset="UTF-8"/>
+        <title>Element.inside | Demo</title>
+        <!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+<style>
+/*	Resets
+	------	*/
+
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, 
+p, blockquote, pre, a, abbr, address, cite, code, del, dfn, em, 
+img, ins, kbd, q, samp, small, strong, sub, sup, var, b, i, hr, 
+dl, dt, dd, ol, ul, li, fieldset, form, label, legend, 
+table, caption, tbody, tfoot, thead, tr, th, td,
+acronym, applet, article, aside, canvas, details, figure, figcaption, hgroup, 
+big, dialog, embed, meter, output, progress, rp, rt, ruby, s, strike, tt, xmp,
+menu, footer, header, nav, section, summary, time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0 none;
+	font-size: 100%;
+}
+
+article, aside, details, menu, canvas, figure, figure img, figcaption, hgroup,
+footer, header, nav, section, audio, video {
+	display: block;
+}
+
+b,
+strong {
+/*
+  Makes browsers agree.
+  IE + Opera = font-weight: bold.
+  Gecko + WebKit = font-weight: bolder.
+*/
+  font-weight: bold;
+}
+
+img {
+  color: transparent;
+  font-size: 0;
+  vertical-align: middle;
+/*
+  For IE.
+  http://css-tricks.com/ie-fix-bicubic-scaling-for-images
+*/
+  -ms-interpolation-mode: bicubic;
+}
+
+body {
+    font-size: 100%;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	  -webkit-text-size-adjust: 100%; /* Stops Mobile Safari from auto-adjusting font-sizes */
+}
+
+/****************/
+/*** Demo CSS ***/
+/****************/
+
+#main section>div {
+  height: 260px;
+  position: relative;
+  margin-top: 30px;
+}
+
+#main section {
+	margin-top: 25px;
+}
+
+#out {
+    position:absolute;
+    background-color: blue;
+    width: 100px;
+    height: 100px;
+    margin: 100px 0 0 100px;
+}
+
+#in {
+    position:absolute;
+    background-color: red;
+    width: 50px;
+    height: 50px;
+    margin: 125px 0 0 125px;
+}
+</style>
+</head>
+<body>
+<section id="main" role="main">
+    <section id="collision">
+        <header>
+            <h1>Element.inside</h1>
+        </header>
+        <div>
+            <div id="msg"><strong>Inside:</strong> <span></span></div>
+            <div id="out"></div>
+            <div id="in"></div>
+        </div>
+    </section>
+</section>
+<script src="//ajax.googleapis.com/ajax/libs/mootools/1.5.1/mootools-yui-compressed.js"></script>
+<script src="../Source/Element.inside.js"></script>
+<script>
+window.addEvent('domready', function(){
+
+    $$('#msg span')[0].set('text', document.id('in').inside(document.id('out')));
+
+});
+</script>
+</body>
+</html>
