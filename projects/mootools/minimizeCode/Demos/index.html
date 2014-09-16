@@ -1,0 +1,319 @@
+<!DOCTYPE HtMl>
+<html lang="en">
+<head>
+        <meta charset="UTF-8"/>
+        <title>minimizeCode | Demo</title>
+        <!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+<style>
+/*	Resets
+	------	*/
+
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, 
+p, blockquote, pre, a, abbr, address, cite, code, del, dfn, em, 
+img, ins, kbd, q, samp, small, strong, sub, sup, var, b, i, hr, 
+dl, dt, dd, ol, ul, li, fieldset, form, label, legend, 
+table, caption, tbody, tfoot, thead, tr, th, td,
+acronym, applet, article, aside, canvas, details, figure, figcaption, hgroup, 
+big, dialog, embed, meter, output, progress, rp, rt, ruby, s, strike, tt, xmp,
+menu, footer, header, nav, section, summary, time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0 none;
+	font-size: 100%;
+}
+
+article, aside, details, menu, canvas, figure, figure img, figcaption, hgroup,
+footer, header, nav, section, audio, video {
+	display: block;
+}
+
+b,
+strong {
+/*
+  Makes browsers agree.
+  IE + Opera = font-weight: bold.
+  Gecko + WebKit = font-weight: bolder.
+*/
+  font-weight: bold;
+}
+
+img {
+  color: transparent;
+  font-size: 0;
+  vertical-align: middle;
+/*
+  For IE.
+  http://css-tricks.com/ie-fix-bicubic-scaling-for-images
+*/
+  -ms-interpolation-mode: bicubic;
+}
+
+body {
+    font-size: 100%;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	  -webkit-text-size-adjust: 100%; /* Stops Mobile Safari from auto-adjusting font-sizes */
+}
+
+/****************/
+/*** Demo CSS ***/
+/****************/
+
+#main section>div {
+  height: 260px;
+  position: relative;
+  margin-top: 30px;
+}
+
+#main section {
+	margin-top: 25px;
+}
+
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.listmanager-row {
+    height: 30px;
+    border: 1px solid #000;
+}
+
+.listmanager-row span {
+    display: block;
+    float: left;
+    margin: 5px;
+}
+
+.listmanager-add-row, .listmanager-remove-row {
+    display: block;
+    float: right;
+    color: #000;
+    text-decoration: none;
+    margin: 5px;
+}
+</style>
+</head>
+<body>
+<section id="main" role="main">
+    <section id="collision">
+        <header>
+            <h1>minimizeCode</h1>
+        </header>
+        <div>
+<button>Minimize CSS</button>
+<textarea id="css">
+head{
+    margin:0;
+    }
+body{
+    margin:0;
+    padding:0;
+    font-family: "Arial Black";
+    font-size:90%;
+}
+body > .trex, input[type!="email"] {
+        margin: 10px;
+        cursor: default!important;
+    }
+header, footer, section, nav, body, head{
+    display:block;
+}
+body img{
+    border:none;
+}
+.clearboth{
+    clear:both;
+}
+body#redbar{
+    position:fixed;
+    background-color:#ef4135;
+    height:5px;
+    width:100%;
+    z-index:999;
+}
+#layout{
+    margin:0 auto 0 auto;
+    width:1000px;
+}
+#layout_header{
+    position:fixed;
+    margin-top:5px;
+    width:150px;
+    float:left;
+}
+#layout_header h1 span{
+    display:none;
+}
+#layout_header object{
+    width:150px;
+    height:112.5px;
+    overflow:hidden;
+}
+#site_nav{
+    text-transform:uppercase;
+}
+#site_nav ul{
+    margin:0;
+    padding:0;
+    list-style:none;
+}
+#site_nav li{
+    margin:5px;
+    float:right;
+}
+#site_nav a{
+    background-color:#404040;
+    padding:4px 7px 4px 7px;
+    color:#fff;
+    text-decoration:none;
+}
+#site_nav a:hover, #site_nav a.selected{
+    background-color:#ef4135;
+}
+#site_lang{
+    margin-top:10px;
+}
+#site_lang ul{
+    margin:0;
+    padding:0;
+    list-style:none;
+}
+#site_lang li{
+    display:block;
+    float:right;
+    margin:5px;
+}
+#site_lang a{
+    color:#000;
+    font-family:Arial;
+    text-decoration:none;
+}
+#page_wrapper{
+    margin-left:180px;
+    padding-top:65px;
+}
+#page_wrapper header{
+    margin-bottom:25px;
+}
+#page_wrapper header h1{
+    display:inline;
+    clear:both;
+    background-color:#404040;
+    padding:4px 7px 4px 7px;
+    color:#fff;
+    font-size:120%;
+}
+#page{
+    font-family: Arial, Helvetica, sans-serif;
+}
+#layout_footer{
+    padding:30px 0 30px 0;
+}
+#find_close{
+    display:none;
+    float:right;
+    margin-right:-15px;
+}
+#find-content{
+    background-color:#fff;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    margin-top:10px;
+}
+input{
+    padding:2px;
+    border:#ccc solid 1px;
+    border-right:#999 solid 1px;
+    border-bottom:#999 solid 1px;
+    font-size:large;
+}
+textarea{
+    padding:2px;
+    border:#ccc solid 1px;
+    border-right:#999 solid 1px;
+    border-bottom:#999 solid 1px;
+    font-family:"Lucida Grande";
+    font-size:large;
+}
+button{
+    padding:3px;
+    border:#ccc solid 1px;
+    border-right:#999 solid 1px;
+    border-bottom:#999 solid 1px;
+    font-size:large;
+    background-color:white;
+    outline:none;
+}
+/*#directions fieldset{
+    border:none;
+}
+#directions legend{
+    float:left;
+    margin:7px 0 0 0;
+    padding:0;
+}
+#directions label{
+    margin-left:10px;
+}
+#directions input{
+    border:#ccc solid 1px;
+    border-right:#999 solid 1px;
+    border-bottom:#999 solid 1px;
+    font-size:large;
+}*/
+
+/*
+ * Contact form
+ */
+
+#form_email{
+    margin:50px 0 50px 0;
+    font-size:larger;
+}
+#form_email ol{
+    list-style:none;
+    margin:0;
+    padding:0;
+}
+#form_email li{
+    padding-bottom: 1em;
+}
+#form_email label{
+    float: left;    
+    width: 7em;    
+    margin-right: 1em;    
+    text-align: right; 
+}
+#form_email textarea{
+    width:300px;
+    height:150px;
+}
+#form_email button{
+    margin-left:7.7em;
+}
+</textarea><pre id="minimizecss"></pre>
+
+        </div>
+    </section>
+</section>
+<script src="//ajax.googleapis.com/ajax/libs/mootools/1.5.1/mootools-yui-compressed.js"></script>
+<script src="../Source/minimizeCode.js"></script>
+<script>
+window.addEvent('domready', function(){
+
+    $$('button')[0].addEvent('click', function(){
+    
+    var css = document.id('css').get('value');
+    
+    var newCss = new minimizeCode().css(css);
+    
+    document.id('minimizecss').set('text', newCss);
+    
+});
+
+});
+</script>
+</body>
+</html>
