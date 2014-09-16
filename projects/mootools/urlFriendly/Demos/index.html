@@ -1,0 +1,143 @@
+<!DOCTYPE HtMl>
+<html lang="en">
+<head>
+        <meta charset="UTF-8"/>
+        <title>urlFriendly | Demo</title>
+        <!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+<style>
+/*	Resets
+	------	*/
+
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, 
+p, blockquote, pre, a, abbr, address, cite, code, del, dfn, em, 
+img, ins, kbd, q, samp, small, strong, sub, sup, var, b, i, hr, 
+dl, dt, dd, ol, ul, li, fieldset, form, label, legend, 
+table, caption, tbody, tfoot, thead, tr, th, td,
+acronym, applet, article, aside, canvas, details, figure, figcaption, hgroup, 
+big, dialog, embed, meter, output, progress, rp, rt, ruby, s, strike, tt, xmp,
+menu, footer, header, nav, section, summary, time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0 none;
+	font-size: 100%;
+}
+
+article, aside, details, menu, canvas, figure, figure img, figcaption, hgroup,
+footer, header, nav, section, audio, video {
+	display: block;
+}
+
+b,
+strong {
+/*
+  Makes browsers agree.
+  IE + Opera = font-weight: bold.
+  Gecko + WebKit = font-weight: bolder.
+*/
+  font-weight: bold;
+}
+
+img {
+  color: transparent;
+  font-size: 0;
+  vertical-align: middle;
+/*
+  For IE.
+  http://css-tricks.com/ie-fix-bicubic-scaling-for-images
+*/
+  -ms-interpolation-mode: bicubic;
+}
+
+body {
+    font-size: 100%;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	  -webkit-text-size-adjust: 100%; /* Stops Mobile Safari from auto-adjusting font-sizes */
+}
+
+/****************/
+/*** Demo CSS ***/
+/****************/
+
+#main section>div {
+  height: 260px;
+  position: relative;
+  margin-top: 30px;
+}
+
+#main section {
+	margin-top: 25px;
+}
+</style>
+</head>
+<body>
+<section id="main" role="main">
+    <section id="collision">
+        <header>
+            <h1>urlFriendly</h1>
+        </header>
+        <div>
+<input type="text"/><br/><button id="button">Change string to url friendly</button><div></div>
+        </div>
+    </section>
+</section>
+<script src="//ajax.googleapis.com/ajax/libs/mootools/1.5.1/mootools-yui-compressed.js"></script>
+<script src="../Source/urlFriendly.js"></script>
+<script>
+window.addEvent('domready', function(){
+
+/*
+---
+description: Clean a string to make it friendly for the URL.
+
+license: MIT-style
+
+authors:
+- Jean-Nicolas Boulay Desjardins (http://jean-nicolas.name/)
+
+requires:
+ core/1.2.1:   '*'
+
+provides:
+- urlFriendly
+
+...
+*/
+
+var urlFriendly = new Class({
+
+                initialize: function(val){
+
+                        this.val = val;
+
+                },
+
+                escape: function(){
+
+                        return escape(this.val);
+                },
+
+                humanReadable: function(){
+
+                        return this.val
+                        .toLowerCase()
+                        .replace(/^\s+|\s+$/g, "") // trim leading and trailing spaces
+                        .replace(/[_|\s]+/g, "-") // change all spaces and underscores to a hyphen
+                        .replace(/[^a-z0-9-]+/g, "") // remove all non-alphanumeric characters except the hyphen
+                        .replace(/[-]+/g, "-") // replace multiple instances of the hyphen with a single instance
+                        .replace(/^-+|-+$/g, ""); // trim leading and trailing hyphens
+                }
+
+        });
+
+document.id('button').addEvent('click', function(){
+
+    var string = new urlFriendly($$('input')[0].get('value'));
+    
+    $$('div')[0].set('text', string.humanReadable());
+    
+});
+
+});
+</script>
+</body>
+</html>
