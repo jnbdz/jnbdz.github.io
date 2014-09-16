@@ -26,6 +26,10 @@ a {
 	text-decoration: none;
 }
 
+a:hover {
+	text-decoration: underline;
+}
+
 ul {
 	list-style: none;
 }
@@ -41,11 +45,18 @@ section {
 section section {
 	padding: 15px;
 	margin-bottom: 15px;
+	clear: both;
 }
 
 section section h2 {
 	color: #6F92FF;
 	font-size: 120%;
+	display: inline;
+}
+
+section section header div {
+	font-size: 70%;
+	display: inline;
 }
 </style>
 </head>
@@ -67,7 +78,9 @@ section section h2 {
 			<section>
 				<header>
 					<h2>Mootools</h2>
+					<div>(<a href="http://mootools.net/forge/profile/jnbdz">Profile</a>)</div>
 				</header>
+				<div style="clear:both;"></div>
 				<div>
 					<ul>
 						<li><a href="projects/mootools/RectangleSelection/Demos/">RectangleSelection</a></li>
