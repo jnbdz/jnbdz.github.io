@@ -20,6 +20,7 @@ section, nav, header {
 
 #page_header h1 {
 	color: #8FABFF;
+	font-size: 2em;
 }
 
 a {
@@ -70,13 +71,15 @@ ul {
 }
 
 input, textarea {
+	font-family: 'Lucida Grande', Verdana, Arial, Sans-Serif;
 	border: 1px solid grey;
 	padding: 3px;
+	font-size: 0.9em;
 }
 
 textarea {
-	width: 18vw;
-	height: 5vw;
+	width: 30em;
+	height: 10em;
 }
 
 .separator {
@@ -87,6 +90,10 @@ sup {
 	text-transform: capitalize;
 	font-size: 0.6em;
 	padding-left: 0.5em;
+}
+
+footer {
+	padding: 1.5em;
 }
 </style>
 </head>
@@ -103,9 +110,9 @@ sup {
 				<ul>
 					<li><a href="#external-links">External Links</a></li>
 					<li><a href="#bio">Bio</a></li>
-					<li><a href="#contact-me">Contact Me</a></li>
 					<li><a href="#demos">Demos</a></li>
-					<li><a href="#equation">Equation</a></li>
+					<li><a href="#contact-me">Contact Me</a></li>
+					<!--<li><a href="#equation">Equation</a></li>-->
 				</ul>
 			</div>
 		</section>
@@ -141,6 +148,47 @@ sup {
 						<p>By the way, in my free time, I fly Cessna's 172.</p>
 					</div>
 				</section>
+				<section id="demos">
+					<header>
+						<h2>Demos</h2>
+					</header>
+					<p>Those are some of the JavaScript Mootools plugins I worked on in the past.</p>
+					<p>To see more of my work you can go to my <a href="https://github.com/jnbdz">GitHub account</a>.</p>
+					<section>
+						<header>
+							<h3>Labs</h3>
+						</header>
+						<div>
+							<ul>
+								<li><a href="labs/formInputs.html">FormInputs</a></li>
+							</ul>
+						</div>
+					</section>
+					<section>
+						<header>
+							<h3>Mootools</h3>
+							<div>(<a href="http://mootools.net/forge/profile/jnbdz">Profile</a>)</div>
+						</header>
+						<div style="clear:both;"></div>
+						<div>
+							<ul>
+								<li><a href="projects/mootools/RectangleSelection/Demos/">RectangleSelection</a></li>
+								<li><a href="projects/mootools/Drag.Move.Collide/Demos/">Drag.Move.Collide</a></li>
+								<li><a href="projects/mootools/Drag.Move.Inside/Demos/">Drag.Move.Inside</a></li>
+								<li><a href="projects/mootools/elCollide/Demos/">Element.Collide</a></li>
+								<li><a href="projects/mootools/Element.serializeArea/Demos/">Element.serializeArea</a></li>
+								<li><a href="projects/mootools/elInside/Demos/">Element.Inside</a></li>
+								<li><a href="projects/mootools/EncodeAndDecodeXML/Demos/">EncodeAndDecodeXML</a></li>
+								<li><a href="projects/mootools/GUID/Demos/">GUID</a></li>
+								<li><a href="projects/mootools/listManager/Demos/">listManager</a></li>
+								<li><a href="projects/mootools/minimizeCode/Demos/">minimizeCode</a></li>
+								<li><a href="projects/mootools/mooStripe/Demos/">mooStripe</a></li>
+								<li><a href="projects/mootools/ScrollBarCover/Demos/">ScrollBarCover</a></li>
+								<li><a href="projects/mootools/urlFriendly/Demos/">urlFriendly</a></li>
+							</ul>
+						</div>
+					</section>
+				</section>
 				<section id="contact-me">
 					<header>
 						<h2>Contact Me</h2>
@@ -173,48 +221,8 @@ sup {
 				  </ul>
 				</form>
 				<iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted) {}"></iframe>
-
 				</section>
-		<section id="demos">
-			<header>
-				<h2>Demos</h2>
-			</header>
-			<section>
-				<header>
-					<h3>Labs</h3>
-				</header>
-				<div>
-					<ul>
-						<li><a href="labs/formInputs.html">FormInputs</a></li>
-					</ul>
-				</div>
-			</section>
-			<section>
-				<header>
-					<h3>Mootools</h3>
-					<div>(<a href="http://mootools.net/forge/profile/jnbdz">Profile</a>)</div>
-				</header>
-				<div style="clear:both;"></div>
-				<div>
-					<ul>
-						<li><a href="projects/mootools/RectangleSelection/Demos/">RectangleSelection</a></li>
-						<li><a href="projects/mootools/Drag.Move.Collide/Demos/">Drag.Move.Collide</a></li>
-						<li><a href="projects/mootools/Drag.Move.Inside/Demos/">Drag.Move.Inside</a></li>
-						<li><a href="projects/mootools/elCollide/Demos/">Element.Collide</a></li>
-						<li><a href="projects/mootools/Element.serializeArea/Demos/">Element.serializeArea</a></li>
-						<li><a href="projects/mootools/elInside/Demos/">Element.Inside</a></li>
-						<li><a href="projects/mootools/EncodeAndDecodeXML/Demos/">EncodeAndDecodeXML</a></li>
-						<li><a href="projects/mootools/GUID/Demos/">GUID</a></li>
-						<li><a href="projects/mootools/listManager/Demos/">listManager</a></li>
-						<li><a href="projects/mootools/minimizeCode/Demos/">minimizeCode</a></li>
-						<li><a href="projects/mootools/mooStripe/Demos/">mooStripe</a></li>
-						<li><a href="projects/mootools/ScrollBarCover/Demos/">ScrollBarCover</a></li>
-						<li><a href="projects/mootools/urlFriendly/Demos/">urlFriendly</a></li>
-					</ul>
-				</div>
-			</section>
-		</section>
-		<section id="equation">
+		<!--<section id="equation">
 			<header>
 				<h2>Equation...</h2>
 			</header>
@@ -224,7 +232,7 @@ sup {
 \nabla \times \vec{\mathbf{E}}\, +\, \frac1c\, \frac{\partial\vec{\mathbf{B}}}{\partial t} &amp; = \vec{\mathbf{0}} \\
 \nabla \cdot \vec{\mathbf{B}} &amp; = 0 \end{aligned}</annotation></semantics></math>
 			</div>
-		</section>
+		</section>-->
 		<footer>
 			Copyright &copy; Jean-Nicolas Boulay
 		</footer>
