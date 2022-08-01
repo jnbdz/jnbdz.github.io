@@ -64,6 +64,20 @@ section section header div {
 	font-size: 70%;
 	display: inline;
 }
+
+ul {
+	list-style-type: none;
+}
+
+input, textarea {
+	border: 1px solid grey;
+	padding: 3px;
+}
+
+textarea {
+	width: 18vw;
+	height: 5vw;
+}
 </style>
 </head>
 <body>
@@ -79,10 +93,14 @@ section section header div {
 					<ul>
 						<li><a href="https://jeannicolasboulay.medium.com/" title="Jean-Nicolas Boulay – Medium">My Medium Blog</a></li>
 						<li><a href="https://github.com/jnbdz">https://github.com/jnbdz</a></li>
+						<li><a href="#bio">Bio</a></li>
+						<li><a href="#contact-me">Contact Me</a></li>
+						<li><a href="#demos">Demos</a></li>
+						<li><a href="#equation">Equation</a></li>
 					</ul>
 				</div>
 				</section>
-				<section>
+				<section id="bio">
 					<header>
 						<h2>Small biography</h2>
 					</header>
@@ -103,7 +121,41 @@ section section header div {
 						<p>By the way, in my free time, I fly Cessna's 172.</p>
 					</div>
 				</section>
-		<section>
+				<section id="contact-me">
+					<header>
+						<h2>Contact Me</h2>
+					</header>
+					<form name="gform" id="gform" enctype="text/plain" action="https://docs.google.com/forms/d/1suUhfpktHIntlcdAxssQ16v6JK72dVE86IQvnCf0b9E/formResponse?" target="hidden_iframe" onsubmit="submitted=true;">
+				  <ul>
+					<li>
+					  <label for="entry.1312322547">First name:</label><br>
+					  <input type="text" name="entry.1312322547" id="entry.1312322547">
+					</li>
+					<li>
+					  <label for="entry.1985178227">Last name:</label><br>
+					  <input type="text" name="entry.1985178227" id="entry.1985178227">
+					</li>
+					<li>
+					  <label for="entry.579589889">Email Address:</label><br>
+					  <input type="email" name="entry.579589889" id="entry.579589889">
+					</li>
+					<li>
+					  <label for="entry.855632602">Phone number:</label><br>
+					  <input type="tel" name="entry.855632602" id="entry.855632602">
+					</li>
+					<li>
+					  <label for="entry.1095820257">Message:</label><br>
+					  <textarea name="entry.1095820257" id="entry.1095820257"></textarea>
+					</li>
+					<li>
+					  <input type="submit" value="Submit">
+					</li>
+				  </ul>
+				</form>
+				<iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted) {}"></iframe>
+
+				</section>
+		<section id="demos">
 			<header>
 				<h2>Demos</h2>
 			</header>
@@ -142,9 +194,9 @@ section section header div {
 				</div>
 			</section>
 		</section>
-		<section>
+		<section id="equation">
 			<header>
-				<h2>Equations...</h2>
+				<h2>Equation...</h2>
 			</header>
 			<div>
 				<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable columnalign="right left right left right left right left right left" columnspacing="0em" displaystyle="true"><mtr><mtd><mo>∇</mo><mo>×</mo><mover><mi>𝐁</mi><mo stretchy="false">⇀</mo></mover><mo>−</mo><mspace width="0.16666666666666666em"></mspace><mfrac><mn>1</mn><mi>c</mi></mfrac><mspace width="0.16666666666666666em"></mspace><mfrac><mrow><mo>∂</mo><mover><mi>𝐄</mi><mo stretchy="false">⇀</mo></mover></mrow><mrow><mo>∂</mo><mi>t</mi></mrow></mfrac></mtd><mtd><mo>=</mo><mfrac><mrow><mn>4</mn><mi>π</mi></mrow><mi>c</mi></mfrac><mover><mi>𝐣</mi><mo stretchy="false">⇀</mo></mover></mtd></mtr><mtr><mtd><mo>∇</mo><mo>⋅</mo><mover><mi>𝐄</mi><mo stretchy="false">⇀</mo></mover></mtd><mtd><mo>=</mo><mn>4</mn><mi>π</mi><mi>ρ</mi></mtd></mtr><mtr><mtd><mo>∇</mo><mo>×</mo><mover><mi>𝐄</mi><mo stretchy="false">⇀</mo></mover><mspace width="0.16666666666666666em"></mspace><mo>+</mo><mspace width="0.16666666666666666em"></mspace><mfrac><mn>1</mn><mi>c</mi></mfrac><mspace width="0.16666666666666666em"></mspace><mfrac><mrow><mo>∂</mo><mover><mi>𝐁</mi><mo stretchy="false">⇀</mo></mover></mrow><mrow><mo>∂</mo><mi>t</mi></mrow></mfrac></mtd><mtd><mo>=</mo><mover><mn>𝟎</mn><mo stretchy="false">⇀</mo></mover></mtd></mtr><mtr><mtd><mo>∇</mo><mo>⋅</mo><mover><mi>𝐁</mi><mo stretchy="false">⇀</mo></mover></mtd><mtd><mo>=</mo><mn>0</mn></mtd></mtr></mtable><annotation encoding="TeX">\begin{aligned}
