@@ -99,10 +99,19 @@ footer {
 }
 </style>
 </head>
-<body>
+<body class="h-resume">
 	<section>
-		<header id="page_header">
-			<h1>Jean-Nicolas Boulay</h1>
+		<header id="page_header" class="p-contact h-card">
+			<h1 class="p-name"><span class="p-given-name">Jean-Nicolas</span> <span class="p-family-name">Boulay</span></h1>
+			<div style="display:none;">
+				<span class="p-nickname">JN</span>
+				<a href="https://jean-nicolas.name/" class="u-url">jean-nicolas.name</a>
+				<a href="https://jeannicolasboulay.medium.com/" title="Jean-Nicolas Boulay – Medium" class="u-url">My Medium Blog</a>
+				<a href="https://github.com/jnbdz" class="u-url">jnbdz | GitHub</a>
+				<span class="p-country-name">Canada</span>
+				<span class="p-region">Québec</span>
+				<span class="p-job-title">Programmer</span>
+			</div>
 		</header>
 		<section id="menu">
 			<header>
@@ -112,6 +121,7 @@ footer {
 				<ul>
 					<li><a href="#external-links">External Links</a></li>
 					<li><a href="#bio">Bio</a></li>
+					<li><a href="#technologies">Technologies</a></li>
 					<li><a href="#demos">Demos</a></li>
 					<li><a href="#contact-me">Contact Me</a></li>
 					<!--<li><a href="#equation">Equation</a></li>-->
@@ -133,7 +143,7 @@ footer {
 					<header>
 						<h2>Small biography</h2>
 					</header>
-					<div>
+					<div class="p-summary">
 						<p>Bonjour! Welcome to my website!</p>
 						<p>Here is a little biography about me. I started coding whilst I was still in high school in around 2002 (PHP, SQL, JavaScript, and C). I also repaired people's computers (I read CompTIA A+ back then), did a bit of Photoshop and video editing (with Adobe Premiere Pro), and ran a Linux server from home to host websites and tools I used in school. Back then, some of my other achievements: I assembled 20+ computers in one night, built a CMS system for a B&B, programmed a picture rating web tool for my high school administration, coded a JavaScript debugger, and participated in a robotic contest, helped build my school's theater play set, I also was the chief technician for my school auditorium meaning I managed a group of unruly teenagers to handle the sound system (soundboard, microphone, etc.), the building of the theater set, lights, etc. And if it wasn't enough, I programmed two websites for my school. </p>
 						<p>Anyways, I did a million things! So much so that I was awarded: Le Prix du Lieutenant-Gouverneur.</p>
@@ -147,7 +157,62 @@ footer {
 						<p>I invite you to look at my GitHub repo: <a href="https://github.com/jnbdz">https://github.com/jnbdz</a><sup>[external]</sup>.</p>
 						<p>I am also into sports like downhill skiing, canoeing, kayaking, sailing, and martial arts like karate, vovinam, kickboxing, and Muay Thai.</p>
 						<p>I have been to many countries like Mexico, Morocco, Tunisia, Israel, Kenya, Cuba, Isle of Man, and the USA.</p>
-						<p>By the way, in my free time, I fly Cessna's 172.</p>
+						<p>By the way, in my free time, I <span class="p-skill">fly Cessna's 172</span>.</p>
+					</div>
+				</section>
+				<section id="technologies">
+					<header>
+						<h2>Technologies</h2>
+					</header>
+					<div class="p-skill">
+						<ul>
+							<li><strong>Langues: </strong>
+								<ul>
+									<li><strong>Query:</strong> SQL, SPARQL</li>
+									<li><strong>Web:</strong> PHP, JavaScript, TypeScript, CSS (SASS, LESS)</li>
+									<li><strong>Markup:</strong> HTML, XML, RSS, RDF, XSLT, SVG</li>
+									<li><strong>General-purpose:</strong> Java, Groovy, Clojure, GO (Golang), Python, Rust, C, C++, Ruby</li>
+									<li><strong>Integration:</strong> WebMethods</li>
+									<li><strong>Script:</strong> Bash, ZSH, PowerShell, Spring Expression Language (SpEL)</li>
+								</ul>
+							</li>
+							<li><strong>Frameworks and Libraries: </strong>
+								<ul>
+									<li><strong>Java:</strong> Spring Boot, Spring Shell, Spring Vault, Spring Security, Spring Session, Tika, OFBiz, JUnit, Quarkus, Apereo CAS, JDBC</li>
+									<li><strong>PHP:</strong> Kohana (HMVC), Laravel (MVC), Magento (eCommerce), Smarty (templating), WordPress (blogging), PHPUnit (unit testing)</li>
+									<li><strong>JavaScript:</strong> Mootools, jQuery, Angular, AngularJS, Vue.js (v3), Puppeteer, ExpressJS, Jest/Chai/Mocha (unit testing), Electron, D3.js, package managers (yarn, npm)</li>
+								</ul>
+							</li>
+							<li><strong>Storages: </strong>
+								<ul>
+									<li><strong>SQL:</strong> ORACLE SQL, MySQL, SQLite, PostgreSQL, MySQL Percona, H2 database</li>
+									<li><strong>Search engine:</strong> Sphinx, ElasticSearch</li>
+									<li><strong>Big data:</strong> Hadoop, HBase, Pig, Hive, Scoop, Accumulo, Cassandra</li>
+									<li><strong>Caching:</strong> Redis, Memcache, Varnish</li>
+									<li><strong>Static:</strong> S3</li>
+								</ul>
+							</li>
+							<li><strong>DB Tools:</strong> Toad for Oracle, PHPMyAdmin, Oracle SQL Developer</li>
+							<li><strong>OS:</strong> Windows, Windows Server 2016, Mac OS X, Linux (CentOS, Ubuntu, Debian, Qubes OS, Kali, OpenWrt)</li>
+							<li><strong>API Services:</strong> Twilio, Google Analytics, Facebook, Twitter, PayPal, Stripe, AWS</li>
+							<li><strong>Cloud services:</strong> AWS (WorkSpaces, CloudWatch, S3, EC2, Lambda, API Gateway, Route53), RackSpace, DigitalOcean, Linode, Google Cloud, Azure</li>
+							<li><strong>Servers:</strong> Apache2, NGiNX, Node.js, Zend Server, ShoutCast</li>
+							<li><strong>Multimedia:</strong> Photoshop, Illustrator, Inkscape, Kdenlive, Adobe Premiere Pro, ffmpeg</li>
+							<li><strong>IDE:</strong> IntelliJ, PHPStorm, Software AG Designer (10.3), Eclipse, GoLand, Visual Studio Code, Arduino IDE, Android Studio, Dreamweaver</li>
+							<li><strong>Text editor:</strong> Vim, Nano, Notepad++</li>
+							<li><strong>Office applications:</strong> Word, PowerPoint, Excel, Outlook, OneDrive, OneNote, Teams, Google Docs, Libre Office, Open Office, JIRA, Confluence, Lotus Notes</li>
+							<li><strong>ESBs:</strong> Apache Camel, Spring Integration, Software AG WebMethod (webMethod API Gateway, webMethod Dynamic Server Pages (DSP), webMethod, WmDeployer, My webMethods, webMethods Integration Server)</li>
+							<li><strong>IaC:</strong> Terraform, Packer, Ansible, CloudFormation</li>
+							<li><strong>Virtual Machine/Container:</strong> Vagrant, Virtual Box, Docker, Podman</li>
+							<li><strong>Networking:</strong> OpenVPN, ntop, nmap</li>
+							<li><strong>Software Reverse Engineering (SRE):</strong> Ghidra, libdft, Linux tools (nm, ldd, c++filt, strings, objdump)</li>
+							<li><strong>Logging tools:</strong> Splunk, Kibana, Logstash, AWS CloudWatch</li>
+							<li><strong>CVSs:</strong> Git (Bitbucket, GitHub (actions, Workflows)), SVN, CrossVista</li>
+							<li><strong>Linux:</strong> Systemd, Supervisord, Iptables, SELinux, X Window System (X11), AIDE (Advance Intrusion Detection), rkhunter, chkrootkit</li>
+							<li><strong>Multimedia frameworks:</strong> GStreamer</li>
+							<li><strong>Other:</strong> Vault, Mesos, Consul, Zookeeper, Kafka, Gradle, Maven, CMDBuild, SOAPUI, Postman, Jenkins, Remedy (BMC Software), Riemann, NextCloud, Apache Nutch, fail2ban, WSL (Windows Subsystem for Linux), UML, LDAP, Apache Directory Studio, slapd, OpenLDAP</li>
+							<li><strong>Electronics:</strong> MEGA 2560 R3, ESP8266, Silent Step Stick (TMC2130) (Trinamic), Raspberry Pi Zero, Raspberry Pi 4, NViDIA Jetson AGX Xavier, Blackmagic (MultiView 4 HD, Decklink Mini Monitor 4K)</li>
+						</ul>
 					</div>
 				</section>
 				<section id="demos">
