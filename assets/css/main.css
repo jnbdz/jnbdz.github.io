@@ -1,4 +1,5 @@
 @layer reset, tokens, base, layout, components, utilities;
+/* Layer order. Later layers win regardless of specificity. */
 
 @layer reset {
   *,
@@ -33,7 +34,7 @@
     --slate-850: #1b242e;
     --slate-800: #1e2831;
     --slate-700: #2c3945;
-    --slate-400: #74838f;
+    --slate-400: #7f8d98;
     --slate-300: #97a5b3;
     --slate-100: #dce3ea;
     --magenta-400: #ee5ba3;
@@ -47,7 +48,7 @@
     --buff-400: #c6bca8;
     --ink-900: #18202a;
     --ink-600: #4b5764;
-    --ink-500: #6e7b88;
+    --ink-500: #5b6570;
     --magenta-700: #a9186a;
     --blue-800: #245c90;
 
