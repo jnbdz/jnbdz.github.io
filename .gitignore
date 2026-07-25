@@ -48,3 +48,6 @@ composer.phar
 
 # Scratch workspace for plan execution
 .superpowers/
+
+# Forbidden-string list for tools/check.py - must never be committed
+tools/private-patterns.txt
