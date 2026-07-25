@@ -1,0 +1,164 @@
+@layer reset, tokens, base, layout, components, utilities;
+
+@layer reset {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  :where(body, h1, h2, h3, p, dl, dd, figure) {
+    margin: 0;
+  }
+
+  :where(ul, ol) {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  :where(img, svg) {
+    display: block;
+    max-width: 100%;
+  }
+}
+
+@layer tokens {
+  :root {
+    color-scheme: dark light;
+
+    /* --- primitives: night panel (dark) --- */
+    --slate-950: #0e141a;
+    --slate-900: #151d25;
+    --slate-850: #1b242e;
+    --slate-800: #1e2831;
+    --slate-700: #2c3945;
+    --slate-400: #74838f;
+    --slate-300: #97a5b3;
+    --slate-100: #dce3ea;
+    --magenta-400: #ee5ba3;
+    --blue-300: #6fade2;
+
+    /* --- primitives: chart paper (light) --- */
+    --buff-100: #f2eee4;
+    --buff-50: #fbf8f1;
+    --buff-200: #eae3d4;
+    --buff-300: #dcd3c1;
+    --buff-400: #c6bca8;
+    --ink-900: #18202a;
+    --ink-600: #4b5764;
+    --ink-500: #6e7b88;
+    --magenta-700: #a9186a;
+    --blue-800: #245c90;
+
+    /* --- semantic: dark is the primary treatment --- */
+    --color-ground: var(--slate-950);
+    --color-surface: var(--slate-900);
+    --color-surface-alt: var(--slate-850);
+    --color-rule: var(--slate-700);
+    --color-rule-soft: var(--slate-800);
+    --color-text: var(--slate-100);
+    --color-text-muted: var(--slate-300);
+    --color-text-faint: var(--slate-400);
+    --color-accent: var(--magenta-400);
+    --color-accent-2: var(--blue-300);
+
+    /* --- type --- */
+    --font-sans: system-ui, -apple-system, "Segoe UI", Roboto,
+      "Helvetica Neue", Arial, sans-serif;
+    --font-mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas,
+      "Liberation Mono", monospace;
+
+    --text-label: 0.6875rem;
+    --text-chip: 0.625rem;
+    --text-sm: 0.875rem;
+    --text-body: 0.9375rem;
+    --text-lg: clamp(1.0625rem, 1rem + 0.4vw, 1.375rem);
+    --text-title: 1.3rem;
+    --text-display: clamp(2.1rem, 1.1rem + 4.2vw, 4rem);
+    --text-contact: clamp(1.25rem, 1rem + 1.4vw, 1.9rem);
+
+    --tracking-label: 0.2em;
+    --tracking-chip: 0.16em;
+
+    /* --- space scale --- */
+    --space-unit: 0.25rem;
+    --space-1: calc(var(--space-unit) * 1);
+    --space-2: calc(var(--space-unit) * 2);
+    --space-3: calc(var(--space-unit) * 3);
+    --space-4: calc(var(--space-unit) * 4);
+    --space-6: calc(var(--space-unit) * 6);
+    --space-8: calc(var(--space-unit) * 8);
+    --space-12: calc(var(--space-unit) * 12);
+
+    /* --- layout --- */
+    --measure: 66ch;
+    --gutter: clamp(1.25rem, 5vw, 3rem);
+    --page-max: 62rem;
+    --band-space: clamp(3rem, 8vh, 4.5rem);
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root {
+      --color-ground: var(--buff-100);
+      --color-surface: var(--buff-50);
+      --color-surface-alt: var(--buff-200);
+      --color-rule: var(--buff-400);
+      --color-rule-soft: var(--buff-300);
+      --color-text: var(--ink-900);
+      --color-text-muted: var(--ink-600);
+      --color-text-faint: var(--ink-500);
+      --color-accent: var(--magenta-700);
+      --color-accent-2: var(--blue-800);
+    }
+  }
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-ground);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    font-size: clamp(1rem, 0.96rem + 0.2vw, 1.0625rem);
+    line-height: 1.65;
+    font-variant-numeric: tabular-nums;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+    border-block-end: 1px solid var(--color-accent);
+    padding-block-end: 1px;
+    transition: color 0.15s ease, border-color 0.15s ease;
+  }
+
+  a:hover {
+    color: var(--color-accent);
+  }
+
+  a:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  strong {
+    font-weight: 600;
+    color: var(--color-text);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
