@@ -33,7 +33,7 @@ BUILTIN_FORBIDDEN = [
     (r"tel:", "tel: link"),
     (r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}", "email address"),
     (r"\b\d{3}[ .-]\d{3}[ .-]\d{4}\b", "phone number"),
-    (r"\b\(\d{3}\)\s*\d{3}[ .-]\d{4}\b", "phone number"),
+    (r"\(\d{3}\)\s*\d{3}[ .-]\d{4}", "phone number"),
     (r"Montr[eé]al", "city name"),
 ]
 
