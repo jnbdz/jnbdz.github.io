@@ -283,13 +283,9 @@ def check_meta(page, parsers):
 # --------------------------------------------------------------------------
 
 
-# Resolves relative hrefs against the repo root (ROOT / path.lstrip("/")),
-# which is only correct while every checked page lives at the root. If a
-# future page moves into a subdirectory, its relative links must resolve
-# against that subdirectory, not ROOT — update this before trusting the
-# result for such a page.
 def check_links(page, parsers):
     p = parsers[page]
+    base_dir = (ROOT / page).parent
     broken = []
     for href in p.links:
         href = href.strip()
@@ -303,7 +299,12 @@ def check_links(page, parsers):
         path = parsed.path
         if not path:
             continue
-        target = (ROOT / path.lstrip("/")).resolve()
+        # Rooted paths resolve from the repo root; relative paths resolve
+        # from the referring page's own directory.
+        if path.startswith("/"):
+            target = (ROOT / path.lstrip("/")).resolve()
+        else:
+            target = (base_dir / path).resolve()
         if path.endswith("/"):
             ok = (target / "index.html").exists()
         else:
