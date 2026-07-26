@@ -28,9 +28,20 @@ def record(ok, name, detail=""):
 # 1. Privacy: no contact data, no forbidden strings
 # --------------------------------------------------------------------------
 
-BUILTIN_FORBIDDEN = [
+# mailto:/tel: are only meaningful as forbidden link *protocols* in HTML/CSS
+# output; they are kept out of the doc-wide scan because docs/ legitimately
+# quotes these two literal strings while documenting this very check (the
+# checker's own source, reproduced in the plan, and prose describing the
+# privacy rule). That is a deliberate, narrow carve-out for two tokens only
+# — any actual email address or phone number embedded in a real mailto:/tel:
+# link is still caught everywhere by the email/phone patterns below, which
+# do apply to docs/.
+SITE_ONLY_FORBIDDEN = [
     (r"mailto:", "mailto: link"),
     (r"tel:", "tel: link"),
+]
+
+BUILTIN_FORBIDDEN = [
     (r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}", "email address"),
     (r"\b\d{3}[ .-]\d{3}[ .-]\d{4}\b", "phone number"),
     (r"\(\d{3}\)\s*\d{3}[ .-]\d{4}", "phone number"),
@@ -56,18 +67,53 @@ def load_extra_patterns():
     return out
 
 
+def check_patterns_configured():
+    """Fail loudly if the client-name pattern file has nothing active in it.
+
+    load_extra_patterns() returns [] both when the file is missing and when
+    it exists but is empty of active lines, and an empty pattern list makes
+    check_privacy() vacuously pass. That silent gap is worse than an
+    explicit failure, so it gets its own recorded check.
+    """
+    ok = bool(load_extra_patterns())
+    record(
+        ok,
+        "privacy: client-name patterns configured",
+        "" if ok else (
+            "tools/private-patterns.txt has no active patterns — add the "
+            "client name and abbreviation, one per line, so the client-name "
+            "scan actually runs"
+        ),
+    )
+
+
+def _doc_targets():
+    docs_dir = ROOT / "docs"
+    if not docs_dir.exists():
+        return []
+    return sorted(docs_dir.rglob("*.md"))
+
+
 def check_privacy(pages):
-    patterns = BUILTIN_FORBIDDEN + load_extra_patterns()
-    targets = [ROOT / p for p in pages] + [ROOT / "assets" / "css" / "main.css"]
+    extra = load_extra_patterns()
+    site_targets = [ROOT / p for p in pages] + [ROOT / "assets" / "css" / "main.css"]
+    doc_targets = _doc_targets()
+
     hits = []
-    for path in targets:
-        if not path.exists():
-            continue
-        text = path.read_text(encoding="utf-8")
-        for pattern, label in patterns:
-            for m in re.finditer(pattern, text, re.IGNORECASE):
-                line = text[: m.start()].count("\n") + 1
-                hits.append(f"{path.name}:{line} {label} -> {m.group(0)!r}")
+
+    def scan(targets, patterns):
+        for path in targets:
+            if not path.exists():
+                continue
+            text = path.read_text(encoding="utf-8")
+            for pattern, label in patterns:
+                for m in re.finditer(pattern, text, re.IGNORECASE):
+                    line = text[: m.start()].count("\n") + 1
+                    hits.append(f"{path.name}:{line} {label} -> {m.group(0)!r}")
+
+    scan(site_targets, SITE_ONLY_FORBIDDEN + BUILTIN_FORBIDDEN + extra)
+    scan(doc_targets, BUILTIN_FORBIDDEN + extra)
+
     record(not hits, "privacy", "; ".join(hits))
 
 
@@ -208,6 +254,11 @@ def check_meta(page, parsers):
 # --------------------------------------------------------------------------
 
 
+# Resolves relative hrefs against the repo root (ROOT / path.lstrip("/")),
+# which is only correct while every checked page lives at the root. If a
+# future page moves into a subdirectory, its relative links must resolve
+# against that subdirectory, not ROOT — update this before trusting the
+# result for such a page.
 def check_links(page, parsers):
     p = parsers[page]
     broken = []
@@ -247,7 +298,10 @@ CONTRAST_FOREGROUNDS = [
 CONTRAST_BACKGROUNDS = ["color-ground", "color-surface", "color-surface-alt"]
 CONTRAST_MIN_RATIO = 4.5
 
-HEX_DEF_RE = re.compile(r"--([\w-]+):\s*(#[0-9a-fA-F]{3,8})\s*;")
+HEX_DEF_RE = re.compile(
+    r"--([\w-]+):\s*(#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6}))"
+    r"\s*(?:/\*.*?\*/\s*)?;"
+)
 TOKEN_VAR_RE = re.compile(r"--(color-[\w-]+):\s*var\(--([\w-]+)\)\s*;")
 
 
@@ -377,6 +431,7 @@ def main():
     parsers = {page: parse(page) for page in pages}
 
     check_privacy(pages)
+    check_patterns_configured()
     check_contrast()
     for page in pages:
         check_structure(page, parsers)

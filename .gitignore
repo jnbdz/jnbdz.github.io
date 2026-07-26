@@ -51,3 +51,7 @@ composer.phar
 
 # Forbidden-string list for tools/check.py - must never be committed
 tools/private-patterns.txt
+
+# Python bytecode
+__pycache__/
+*.pyc
