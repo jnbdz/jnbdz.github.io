@@ -55,3 +55,6 @@ tools/private-patterns.txt
 # Python bytecode
 __pycache__/
 *.pyc
+
+# Internal planning documents - kept locally, never published
+docs/
