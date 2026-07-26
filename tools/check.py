@@ -234,6 +234,134 @@ def check_links(page, parsers):
 
 
 # --------------------------------------------------------------------------
+# 4. Contrast: every semantic foreground/background pairing meets WCAG AA
+# --------------------------------------------------------------------------
+
+CONTRAST_FOREGROUNDS = [
+    "color-text",
+    "color-text-muted",
+    "color-text-faint",
+    "color-accent",
+    "color-accent-2",
+]
+CONTRAST_BACKGROUNDS = ["color-ground", "color-surface", "color-surface-alt"]
+CONTRAST_MIN_RATIO = 4.5
+
+HEX_DEF_RE = re.compile(r"--([\w-]+):\s*(#[0-9a-fA-F]{3,8})\s*;")
+TOKEN_VAR_RE = re.compile(r"--(color-[\w-]+):\s*var\(--([\w-]+)\)\s*;")
+
+
+def _extract_braced_block(css, marker):
+    """Return the full `{ ... }` block that follows `marker`, brace-matched."""
+    idx = css.find(marker)
+    if idx == -1:
+        return None
+    start = css.find("{", idx)
+    if start == -1:
+        return None
+    depth = 0
+    for i in range(start, len(css)):
+        if css[i] == "{":
+            depth += 1
+        elif css[i] == "}":
+            depth -= 1
+            if depth == 0:
+                return css[start:i + 1]
+    return None
+
+
+def parse_css_tokens():
+    """Resolve semantic --color-* tokens to concrete hex values, per theme.
+
+    Primitive hex values (--slate-950, --buff-100, etc.) are defined once.
+    Semantic tokens (--color-text, --color-ground, etc.) are declared as
+    `var(--primitive)` twice: once in the dark (default) :root block, once
+    in the `@media (prefers-color-scheme: light)` override. Both must
+    resolve to a concrete hex colour for the contrast check to run.
+    """
+    css = (ROOT / "assets" / "css" / "main.css").read_text(encoding="utf-8")
+
+    light_marker = "@media (prefers-color-scheme: light)"
+    light_idx = css.find(light_marker)
+    if light_idx == -1:
+        raise ValueError("no '@media (prefers-color-scheme: light)' block found")
+    dark_css = css[:light_idx]
+    light_css = _extract_braced_block(css, light_marker)
+    if light_css is None:
+        raise ValueError("could not isolate the light-scheme media block")
+
+    primitives = dict(HEX_DEF_RE.findall(css))
+
+    def resolve(block):
+        resolved = {}
+        for token, primitive in TOKEN_VAR_RE.findall(block):
+            if primitive not in primitives:
+                raise ValueError(
+                    f"--{token} references undefined primitive --{primitive}"
+                )
+            resolved[token] = primitives[primitive]
+        return resolved
+
+    return resolve(dark_css), resolve(light_css)
+
+
+def _hex_to_rgb(value):
+    value = value.lstrip("#")
+    if len(value) == 3:
+        value = "".join(ch * 2 for ch in value)
+    return tuple(int(value[i:i + 2], 16) for i in (0, 2, 4))
+
+
+def _srgb_channel_to_linear(channel):
+    c = channel / 255.0
+    return c / 12.92 if c <= 0.03928 else ((c + 0.055) / 1.055) ** 2.4
+
+
+def _relative_luminance(hex_color):
+    r, g, b = _hex_to_rgb(hex_color)
+    return (
+        0.2126 * _srgb_channel_to_linear(r)
+        + 0.7152 * _srgb_channel_to_linear(g)
+        + 0.0722 * _srgb_channel_to_linear(b)
+    )
+
+
+def contrast_ratio(hex_a, hex_b):
+    """WCAG 2.1 relative-luminance contrast ratio between two hex colours."""
+    l1 = _relative_luminance(hex_a)
+    l2 = _relative_luminance(hex_b)
+    lighter, darker = max(l1, l2), min(l1, l2)
+    return (lighter + 0.05) / (darker + 0.05)
+
+
+def check_contrast():
+    try:
+        dark_tokens, light_tokens = parse_css_tokens()
+    except ValueError as exc:
+        record(False, "contrast: tokens resolve", str(exc))
+        return
+
+    offenders = []
+    for theme_name, tokens in (("dark", dark_tokens), ("light", light_tokens)):
+        for fg in CONTRAST_FOREGROUNDS:
+            for bg in CONTRAST_BACKGROUNDS:
+                if fg not in tokens or bg not in tokens:
+                    offenders.append(f"{theme_name}: {fg} on {bg} -> token not found")
+                    continue
+                ratio = contrast_ratio(tokens[fg], tokens[bg])
+                if ratio < CONTRAST_MIN_RATIO:
+                    offenders.append(
+                        f"{theme_name}: {fg} on {bg} = {ratio:.2f}:1 "
+                        f"(< {CONTRAST_MIN_RATIO}:1)"
+                    )
+    record(
+        not offenders,
+        "contrast: all foreground/background pairings meet 4.5:1",
+        "; ".join(offenders),
+    )
+
+
+# --------------------------------------------------------------------------
 
 
 def main():
@@ -249,6 +377,7 @@ def main():
     parsers = {page: parse(page) for page in pages}
 
     check_privacy(pages)
+    check_contrast()
     for page in pages:
         check_structure(page, parsers)
         check_meta(page, parsers)
