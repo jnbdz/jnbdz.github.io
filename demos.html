@@ -14,6 +14,14 @@
 <meta property="og:locale" content="en_CA">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0e141a">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f2eee4">
+<script>
+try {
+  var t = localStorage.getItem("theme");
+  if (t === "dark" || t === "light") {
+    document.documentElement.setAttribute("data-theme", t);
+  }
+} catch (e) {}
+</script>
 <link rel="icon" href="/favicon.ico" sizes="32x32">
 <link rel="stylesheet" href="/assets/css/main.css">
 </head>
@@ -31,6 +39,11 @@
     <nav class="masthead__links" aria-label="Site">
       <a href="/">Back to profile</a>
     </nav>
+    <div class="theme-switch" role="group" aria-label="Theme" hidden>
+      <button type="button" data-set-theme="dark" aria-pressed="false">Dark</button>
+      <button type="button" data-set-theme="light" aria-pressed="false">Light</button>
+      <button type="button" data-set-theme="system" aria-pressed="true">System</button>
+    </div>
   </div>
 </header>
 
@@ -80,8 +93,42 @@
 
 <footer class="wrap site-footer">
   <span>&copy; Jean-Nicolas Boulay Desjardins</span>
-  <span>Built by hand &middot; No JavaScript</span>
+  <span>Built by hand &middot; No frameworks &middot; No tracking</span>
 </footer>
+
+<script>
+(function () {
+  var group = document.querySelector(".theme-switch");
+  if (!group) { return; }
+  var root = document.documentElement;
+  var buttons = Array.prototype.slice.call(
+    group.querySelectorAll("button[data-set-theme]"));
+
+  function paint() {
+    var mode = root.getAttribute("data-theme") || "system";
+    buttons.forEach(function (b) {
+      b.setAttribute("aria-pressed",
+        String(b.getAttribute("data-set-theme") === mode));
+    });
+  }
+
+  buttons.forEach(function (b) {
+    b.addEventListener("click", function () {
+      var mode = b.getAttribute("data-set-theme");
+      try {
+        if (mode === "system") { localStorage.removeItem("theme"); }
+        else { localStorage.setItem("theme", mode); }
+      } catch (e) {}
+      if (mode === "system") { root.removeAttribute("data-theme"); }
+      else { root.setAttribute("data-theme", mode); }
+      paint();
+    });
+  });
+
+  group.hidden = false;
+  paint();
+})();
+</script>
 
 </body>
 </html>
