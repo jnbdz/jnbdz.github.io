@@ -14,7 +14,21 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 
 # Pages this checker owns. Everything under projects/ and labs/ is legacy
 # demo content that is deliberately left alone.
-PAGES = ["index.html", "demos.html"]
+PAGES = ["index.html", "demos.html", "fr/index.html"]
+
+# Exact lang attribute expected per page, and the hreflang cluster that the
+# two profile pages must both declare (the archive has no alternate).
+EXPECTED_LANG = {
+    "index.html": "en",
+    "demos.html": "en",
+    "fr/index.html": "fr",
+}
+HREFLANG_PAGES = {"index.html", "fr/index.html"}
+EXPECTED_ALTERNATES = {
+    "en": "https://jnbdz.github.io/",
+    "fr": "https://jnbdz.github.io/fr/",
+    "x-default": "https://jnbdz.github.io/",
+}
 
 failures = []
 passes = []
@@ -147,6 +161,7 @@ class PageParser(html.parser.HTMLParser):
         self.first_anchor_href = None
         self.metas = {}             # name/property -> content
         self.rel_links = {}         # rel -> href
+        self.alternates = {}        # hreflang -> href
         self.title_seen = False
         self._in_title = False
         self.title_text = ""
@@ -190,6 +205,8 @@ class PageParser(html.parser.HTMLParser):
             rel = a.get("rel")
             if rel:
                 self.rel_links[rel] = a.get("href", "")
+            if rel == "alternate" and a.get("hreflang"):
+                self.alternates[a["hreflang"]] = a.get("href", "")
 
         if tag == "a" and "href" in a:
             if self.first_anchor_href is None:
@@ -223,7 +240,14 @@ def check_structure(page, parsers):
     p = parsers[page]
 
     record(p.mains == 1, f"{page}: exactly one <main>", f"found {p.mains}")
-    record(bool(p.html_lang), f"{page}: html lang set", "missing lang attribute")
+    expected_lang = EXPECTED_LANG.get(page)
+    if expected_lang is None:
+        record(bool(p.html_lang), f"{page}: html lang set",
+               "missing lang attribute")
+    else:
+        record(p.html_lang == expected_lang,
+               f"{page}: html lang is {expected_lang!r}",
+               f"found {p.html_lang!r}")
 
     h1s = [h for h in p.headings if h == 1]
     record(len(h1s) == 1, f"{page}: exactly one <h1>", f"found {len(h1s)}")
@@ -276,6 +300,13 @@ def check_meta(page, parsers):
     record("canonical" in p.rel_links, f"{page}: has canonical link", "missing")
     for prop in ("og:title", "og:description", "og:url", "og:type"):
         record(prop in p.metas, f"{page}: has {prop}", "missing")
+
+
+def check_hreflang(page, parsers):
+    p = parsers[page]
+    record(p.alternates == EXPECTED_ALTERNATES,
+           f"{page}: hreflang alternates complete",
+           f"found {p.alternates}")
 
 
 # --------------------------------------------------------------------------
@@ -497,6 +528,8 @@ def main():
     for page in pages:
         check_structure(page, parsers)
         check_meta(page, parsers)
+        if page in HREFLANG_PAGES:
+            check_hreflang(page, parsers)
         check_links(page, parsers)
 
     for name, _ in passes:
