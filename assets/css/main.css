@@ -317,3 +317,119 @@
     border-block-end-color: var(--color-accent);
   }
 }
+
+@layer components {
+  .strips {
+    display: grid;
+    gap: 1px;
+    background-color: var(--color-rule-soft);
+    border: 1px solid var(--color-rule-soft);
+  }
+
+  .strip {
+    display: grid;
+    grid-template-columns: 9.5rem 1fr;
+    background-color: var(--color-surface);
+  }
+
+  .strip__status {
+    padding: var(--space-6) var(--space-4);
+    background-color: var(--color-surface-alt);
+    border-inline-end: 1px solid var(--color-rule-soft);
+  }
+
+  .strip__chip {
+    display: inline-block;
+    padding: var(--space-1) var(--space-2);
+    border: 1px solid currentcolor;
+    font-family: var(--font-mono);
+    font-size: var(--text-chip);
+    letter-spacing: var(--tracking-chip);
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: var(--color-text-faint);
+  }
+
+  .strip__chip--live {
+    color: var(--color-accent);
+  }
+
+  .strip__chip--active {
+    color: var(--color-accent-2);
+  }
+
+  .strip__role {
+    display: block;
+    margin-block-start: var(--space-3);
+    font-family: var(--font-mono);
+    font-size: var(--text-chip);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-text-faint);
+  }
+
+  .strip__body {
+    padding: var(--space-6);
+  }
+
+  .strip__title {
+    margin-block-end: var(--space-2);
+    font-size: var(--text-title);
+    font-weight: 600;
+    letter-spacing: -0.015em;
+  }
+
+  .strip__title a {
+    border-block-end-color: transparent;
+  }
+
+  .strip__title a:hover {
+    border-block-end-color: var(--color-accent);
+  }
+
+  .strip__desc {
+    max-inline-size: 60ch;
+    font-size: var(--text-body);
+    color: var(--color-text-muted);
+  }
+
+  .strip__stack {
+    margin-block-start: var(--space-4);
+    padding-block-start: var(--space-3);
+    border-block-start: 1px solid var(--color-rule-soft);
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-text-faint);
+  }
+
+  .strip-note {
+    margin-block-start: var(--space-6);
+    font-size: var(--text-sm);
+    color: var(--color-text-faint);
+  }
+
+  @media (width <= 40rem) {
+    .strip {
+      grid-template-columns: 1fr;
+    }
+
+    .strip__status {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+      padding: var(--space-4);
+      border-inline-end: 0;
+      border-block-end: 1px solid var(--color-rule-soft);
+    }
+
+    .strip__role {
+      margin-block-start: 0;
+    }
+
+    .strip__body {
+      padding: var(--space-4);
+    }
+  }
+}
