@@ -48,6 +48,14 @@ BUILTIN_FORBIDDEN = [
     (r"Montr[eé]al", "city name"),
 ]
 
+# Enforces the no-external-requests rule inside inline scripts. Forbidding
+# the bare "//" also blocks protocol-relative URLs, at the cost of banning
+# JS line comments - our scripts must not use them.
+SCRIPT_BODY_RE = re.compile(
+    r"https?:|//|fetch\s*\(|XMLHttpRequest|sendBeacon|WebSocket|EventSource|"
+    r"importScripts|import\s*\("
+)
+
 
 def load_extra_patterns():
     """Read forbidden strings from an untracked file.
@@ -129,6 +137,9 @@ class PageParser(html.parser.HTMLParser):
         self.headings = []          # list of int levels in document order
         self.imgs_without_alt = 0
         self.scripts = 0
+        self.script_srcs = []
+        self.script_bodies = []
+        self._in_script = False
         self.event_attrs = []
         self.js_urls = []
         self.links = []             # href/src values
@@ -164,6 +175,10 @@ class PageParser(html.parser.HTMLParser):
                 self.imgs_without_alt += 1
         elif tag == "script":
             self.scripts += 1
+            if a.get("src"):
+                self.script_srcs.append(a["src"])
+            self._in_script = True
+            self.script_bodies.append("")
         elif tag == "title":
             self._in_title = True
             self.title_seen = True
@@ -186,10 +201,14 @@ class PageParser(html.parser.HTMLParser):
             self.links.append(a["href"])
 
     def handle_endtag(self, tag):
+        if tag == "script":
+            self._in_script = False
         if tag == "title":
             self._in_title = False
 
     def handle_data(self, data):
+        if self._in_script:
+            self.script_bodies[-1] += data
         if self._in_title:
             self.title_text += data
 
@@ -220,7 +239,17 @@ def check_structure(page, parsers):
     record(p.imgs_without_alt == 0, f"{page}: every img has alt",
            f"{p.imgs_without_alt} missing")
 
-    record(p.scripts == 0, f"{page}: no <script>", f"{p.scripts} found")
+    record(not p.script_srcs, f"{page}: no external scripts",
+           ", ".join(p.script_srcs))
+    record(p.scripts <= 2, f"{page}: at most 2 inline scripts",
+           f"{p.scripts} found")
+    bad_bodies = []
+    for body in p.script_bodies:
+        m = SCRIPT_BODY_RE.search(body)
+        if m:
+            bad_bodies.append(m.group(0))
+    record(not bad_bodies, f"{page}: scripts make no external requests",
+           ", ".join(bad_bodies))
     record(not p.event_attrs, f"{page}: no inline event handlers",
            ", ".join(p.event_attrs))
     record(not p.js_urls, f"{page}: no javascript: URLs", ", ".join(p.js_urls))
