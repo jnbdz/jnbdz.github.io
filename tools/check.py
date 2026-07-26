@@ -304,6 +304,11 @@ HEX_DEF_RE = re.compile(
 )
 TOKEN_VAR_RE = re.compile(r"--(color-[\w-]+):\s*var\(--([\w-]+)\)\s*;")
 
+FORCED_THEME_MARKERS = {
+    "dark": ':root[data-theme="dark"]',
+    "light": ':root[data-theme="light"]',
+}
+
 
 def _extract_braced_block(css, marker):
     """Return the full `{ ... }` block that follows `marker`, brace-matched."""
@@ -332,6 +337,12 @@ def parse_css_tokens():
     `var(--primitive)` twice: once in the dark (default) :root block, once
     in the `@media (prefers-color-scheme: light)` override. Both must
     resolve to a concrete hex colour for the contrast check to run.
+
+    Also extracts the two forced-theme blocks (:root[data-theme="dark"] and
+    :root[data-theme="light"]) to verify they match the scheme-based blocks.
+
+    Returns: (dark_tokens, light_tokens, forced) where forced is
+    {"dark": {...}, "light": {...}}
     """
     css = (ROOT / "assets" / "css" / "main.css").read_text(encoding="utf-8")
 
@@ -356,7 +367,14 @@ def parse_css_tokens():
             resolved[token] = primitives[primitive]
         return resolved
 
-    return resolve(dark_css), resolve(light_css)
+    forced = {}
+    for theme, marker in FORCED_THEME_MARKERS.items():
+        block = _extract_braced_block(css, marker)
+        if block is None:
+            raise ValueError(f"no '{marker}' block found")
+        forced[theme] = resolve(block)
+
+    return resolve(dark_css), resolve(light_css), forced
 
 
 def _hex_to_rgb(value):
@@ -390,7 +408,7 @@ def contrast_ratio(hex_a, hex_b):
 
 def check_contrast():
     try:
-        dark_tokens, light_tokens = parse_css_tokens()
+        dark_tokens, light_tokens, forced = parse_css_tokens()
     except ValueError as exc:
         record(False, "contrast: tokens resolve", str(exc))
         return
@@ -412,6 +430,19 @@ def check_contrast():
         not offenders,
         "contrast: all foreground/background pairings meet 4.5:1",
         "; ".join(offenders),
+    )
+
+    drift = []
+    for theme_name, tokens in (("dark", dark_tokens), ("light", light_tokens)):
+        if forced[theme_name] != tokens:
+            drift.append(
+                f'[data-theme="{theme_name}"] token assignments differ from '
+                f"the {theme_name} scheme block"
+            )
+    record(
+        not drift,
+        "contrast: forced-theme blocks match the system blocks",
+        "; ".join(drift),
     )
 
 

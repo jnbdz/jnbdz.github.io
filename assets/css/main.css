@@ -113,6 +113,38 @@
       --color-accent-2: var(--blue-800);
     }
   }
+
+  /* Forced themes: the masthead theme switch stamps data-theme on <html>.
+     Attribute selectors outrank the plain :root blocks, so these win over
+     both system schemes. Token assignments must stay byte-identical to the
+     corresponding scheme blocks above - tools/check.py enforces the match. */
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --color-ground: var(--slate-950);
+    --color-surface: var(--slate-900);
+    --color-surface-alt: var(--slate-850);
+    --color-rule: var(--slate-700);
+    --color-rule-soft: var(--slate-800);
+    --color-text: var(--slate-100);
+    --color-text-muted: var(--slate-300);
+    --color-text-faint: var(--slate-400);
+    --color-accent: var(--magenta-400);
+    --color-accent-2: var(--blue-300);
+  }
+
+  :root[data-theme="light"] {
+    color-scheme: light;
+    --color-ground: var(--buff-100);
+    --color-surface: var(--buff-50);
+    --color-surface-alt: var(--buff-200);
+    --color-rule: var(--buff-400);
+    --color-rule-soft: var(--buff-300);
+    --color-text: var(--ink-900);
+    --color-text-muted: var(--ink-600);
+    --color-text-faint: var(--ink-500);
+    --color-accent: var(--magenta-700);
+    --color-accent-2: var(--blue-800);
+  }
 }
 
 @layer base {
