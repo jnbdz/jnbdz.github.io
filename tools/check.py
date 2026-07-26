@@ -25,9 +25,9 @@ EXPECTED_LANG = {
 }
 HREFLANG_PAGES = {"index.html", "fr/index.html"}
 EXPECTED_ALTERNATES = {
-    "en": "https://jnbdz.github.io/",
-    "fr": "https://jnbdz.github.io/fr/",
-    "x-default": "https://jnbdz.github.io/",
+    "en": "https://jean-nicolas.com/",
+    "fr": "https://jean-nicolas.com/fr/",
+    "x-default": "https://jean-nicolas.com/",
 }
 
 failures = []
