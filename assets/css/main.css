@@ -496,3 +496,13 @@
     }
   }
 }
+
+@layer components {
+  .prose li + li {
+    margin-block-start: var(--space-2);
+  }
+
+  .prose li {
+    color: var(--color-text-muted);
+  }
+}
