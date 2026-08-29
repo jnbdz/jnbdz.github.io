@@ -19,6 +19,8 @@ try {
   var t = localStorage.getItem("theme");
   if (t === "dark" || t === "light") {
     document.documentElement.setAttribute("data-theme", t);
+  } else if (t !== null) {
+    localStorage.removeItem("theme");
   }
 } catch (e) {}
 </script>

@@ -506,6 +506,38 @@ def check_contrast():
         "; ".join(drift),
     )
 
+    css = (ROOT / "assets" / "css" / "main.css").read_text(encoding="utf-8")
+    scheme_drift = []
+    for theme_name, marker in FORCED_THEME_MARKERS.items():
+        block = _extract_braced_block(css, marker) or ""
+        if not re.search(r"color-scheme:\s*%s\s*;" % theme_name, block):
+            scheme_drift.append(f"{marker} lacks 'color-scheme: {theme_name}'")
+    record(
+        not scheme_drift,
+        "contrast: forced-theme blocks pin color-scheme",
+        "; ".join(scheme_drift),
+    )
+
+
+def check_script_identity(pages, parsers):
+    """Every page must carry byte-identical inline scripts (theme boot +
+    theme switch), so a fix applied to one page cannot silently miss the
+    others."""
+    if len(pages) < 2:
+        return
+    reference = pages[0]
+    ref_bodies = [b.strip() for b in parsers[reference].script_bodies]
+    diverged = []
+    for page in pages[1:]:
+        bodies = [b.strip() for b in parsers[page].script_bodies]
+        if bodies != ref_bodies:
+            diverged.append(f"{page} differs from {reference}")
+    record(
+        not diverged,
+        "scripts: inline scripts identical across pages",
+        "; ".join(diverged),
+    )
+
 
 # --------------------------------------------------------------------------
 
@@ -525,6 +557,7 @@ def main():
     check_privacy(pages)
     check_patterns_configured()
     check_contrast()
+    check_script_identity(pages, parsers)
     for page in pages:
         check_structure(page, parsers)
         check_meta(page, parsers)
